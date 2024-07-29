@@ -20,19 +20,18 @@ export class AuthController {
     }
 
     @MessagePattern('auth.register.professional')
-    registerProfessional(
+    async registerProfessional(
         @Payload() signupDto: SignupDto
     ) {
         const roles = [user_types.professional]
-        return this.authService.registerUser(signupDto, roles)
+        return await this.authService.registerUser(signupDto, roles)
     }
 
     @MessagePattern('auth.login.user')
     async loginUser(
         @Payload() loginDto: LoginDto
     ) {
-        const user  = await this.authService.loginUser(loginDto)
-        return user
+        return await this.authService.loginUser(loginDto)
     }
 
     @MessagePattern('auth.verify.token')

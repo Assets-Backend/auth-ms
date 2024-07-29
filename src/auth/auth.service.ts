@@ -70,7 +70,7 @@ export class AuthService extends PrismaClient implements OnModuleInit {
             const payload: JwtPayload = {
                 mongo_id: newUser.id,
                 user_id: newUser.user_id,
-                user_type: user.roles as user_types[]
+                user_type: newUser.roles as user_types[]
             }
 
             return {

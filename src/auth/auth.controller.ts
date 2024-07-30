@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { LoginDto, SignupDto } from './dto';
 import { user_types } from './enums/user_types.enum';
+import { AuthResponse } from './types/auth-response.type';
 
 @Controller()
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
     @MessagePattern('auth.register.client')
     registerClient(
         @Payload() signupDto: SignupDto
-    ) {
+    ): Promise<AuthResponse> {
         const roles = [user_types.clientAdmin]
         return this.authService.registerUser(signupDto, roles)
     }
@@ -22,7 +23,7 @@ export class AuthController {
     @MessagePattern('auth.register.professional')
     async registerProfessional(
         @Payload() signupDto: SignupDto
-    ) {
+    ): Promise<AuthResponse> {
         const roles = [user_types.professional]
         return await this.authService.registerUser(signupDto, roles)
     }
@@ -30,14 +31,14 @@ export class AuthController {
     @MessagePattern('auth.login.user')
     async loginUser(
         @Payload() loginDto: LoginDto
-    ) {
+    ): Promise<AuthResponse> {
         return await this.authService.loginUser(loginDto)
     }
 
     @MessagePattern('auth.verify.token')
     verifyToken(
         @Payload() token: string
-    ) {
+    ): Promise<AuthResponse> {
         return this.authService.verifyToken(token)
     }
 }

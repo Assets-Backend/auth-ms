@@ -1,5 +1,4 @@
-import { ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, IsStrongPassword } from "class-validator";
-import { user_types } from "../enums/user_types.enum";
+import { IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
 import { gender_options } from "../enums/gender_options.enum";
 
 export class SignupDto {
@@ -9,9 +8,13 @@ export class SignupDto {
     user_id: number;
 
     @IsString()
+    @MinLength(2)
+    @MaxLength(100)
     name: string;
 
     @IsString()
+    @MinLength(2)
+    @MaxLength(100)
     last_name: string;
     
     @IsEmail()

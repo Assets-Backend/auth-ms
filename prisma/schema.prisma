@@ -7,18 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type CurrentClient {
+  client_id Int
+  mongo_id  String
+}
+
 model user {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  user_id    Int
-  name       String
-  last_name  String
-  email      String    @unique
-  phone      String?   @unique
-  password   String
-  roles      String[]
-  gender     String
-  last_login DateTime? @db.Date 
-  deleted_at DateTime? @db.Date
-  updated_at DateTime  @updatedAt
-  created_at DateTime  @default(now())
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  user_id        Int
+  name           String
+  last_name      String
+  email          String    @unique
+  phone          String?   @unique
+  password       String
+  roles          String[]
+  gender         String
+  current_client CurrentClient?
+  last_login     DateTime? @db.Date 
+  deleted_at     DateTime? @db.Date
+  updated_at     DateTime  @updatedAt
+  created_at     DateTime  @default(now())
 }

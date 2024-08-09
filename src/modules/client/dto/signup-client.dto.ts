@@ -1,7 +1,7 @@
 import { IsEmail, IsEnum, IsNumber, IsOptional, IsPhoneNumber, IsPositive, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator";
-import { gender_options } from "../enums/gender_options.enum";
+import { gender_options } from "src/common/enums/gender_options.enum";
 
-export class SignupDto {
+export class SignupClientDto {
 
     @IsNumber()
     @IsPositive()

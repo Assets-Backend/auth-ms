@@ -179,18 +179,27 @@ export class ProfessionalService extends PrismaClient implements OnModuleInit {
         whereUniqueInput: Prisma.professionalWhereUniqueInput,
     ): Promise<professional> {
 
-        // Verifico que el usuario este activo
-        const user = await this.professional.findUnique({
-            where: whereUniqueInput
-        })
+        try {
 
-        // Verifico que el user este activo
-        if (user.deleted_at) throw new RpcException({
-            status: 401,
-            message: 'Unauthorized'
-        })
+            // Verifico que el usuario este activo
+            const user = await this.professional.findUniqueOrThrow({
+                where: whereUniqueInput
+            })
 
-        return user;
+            // Verifico que el user este activo
+            if (user.deleted_at) throw new RpcException({
+                status: 401,
+                message: 'Unauthorized'
+            })
+
+            return user;
+
+        } catch (error) {
+            throw new RpcException({
+                status: 400,
+                message: error.message
+            });
+        }
     }
 
     async update(params: {

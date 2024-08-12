@@ -197,7 +197,7 @@ export class ProfessionalService extends PrismaClient implements OnModuleInit {
         } catch (error) {
             throw new RpcException({
                 status: 400,
-                message: error.message
+                message: 'Unauthorized'
             });
         }
     }

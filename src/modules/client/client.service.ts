@@ -168,17 +168,25 @@ export class ClientService extends PrismaClient implements OnModuleInit {
         whereUniqueInput: Prisma.clientWhereUniqueInput,
     ): Promise<client> {
 
-        // Verifico que el usuario este activo
-        const user = await this.client.findUnique({
-            where: whereUniqueInput
-        })
+        try {
+            // Verifico que el usuario este activo
+            const user = await this.client.findUniqueOrThrow({
+                where: whereUniqueInput
+            })
+    
+            // Verifico que el user este activo
+            if (user.deleted_at) throw new RpcException({
+                status: 401,
+                message: 'Unauthorized'
+            })
+            
+            return user;
+        } catch (error) {
+            throw new RpcException({
+                status: 401,
+                message: 'Unauthorized'
+            });
+        }
 
-        // Verifico que el user este activo
-        if (user.deleted_at) throw new RpcException({
-            status: 401,
-            message: 'Unauthorized'
-        })
-
-        return user;
     }
 }
